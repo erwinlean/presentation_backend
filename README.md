@@ -121,4 +121,5 @@ ____________________________________________________________________________
 #### To improve/Change:
 - Posible login for game
 - Modify Cors
-- Modify  urls: https://sore-erin-goldfish-tutu.cyclic.app/ should not return Express title, also the path should be like  https://sore-erin-goldfish- tutu.cyclic.app/api/v1/game etc...
+- Modify  urls: https://sore-erin-goldfish-tutu.cyclic.app/ should not return Express title, also the path should be like :
+                                                                                 https://sore-erin-goldfish-tutu.cyclic.app/api/v1/game for example
