@@ -1,13 +1,14 @@
+"use strict";
+
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
 
-// Configure chai
 chai.use(chaiHttp);
 chai.should();
 
+// Test
 describe("Games API", () => {
-    // Test the GET endpoint for all users' names
     describe("GET /game/allUsersName", () => {
         it("Should get all users' names", (done) => {
             chai.request(app)
@@ -20,7 +21,6 @@ describe("Games API", () => {
         });
     });
 
-    // Test the GET endpoint for all game points
     describe("GET /game/allGamePoints", () => {
         it("Should get all game points", (done) => {
             chai.request(app)
@@ -33,7 +33,6 @@ describe("Games API", () => {
         });
     });
 
-    // Test the GET endpoint for all times played
     describe("GET /game/allTimesPlayed", () => {
         it("Should get all times played", (done) => {
             chai.request(app)
@@ -41,6 +40,40 @@ describe("Games API", () => {
                 .end((err, res) => {
                     res.should.have.status(200);
                     res.body.should.be.a('array');
+                    done();
+                });
+        });
+    });
+
+    describe("POST /game/user", () => {
+        it("Should create a new user's game data", (done) => {
+            const user = {
+                name: "Jane", // Replace with a unique name
+                gamePoints: 0,
+                timesPlayed: 0
+            };
+            chai.request(app)
+                .post("/game/user")
+                .send(user)
+                .end((err, res) => {
+                    res.should.have.status(201);
+                    res.body.should.be.a('object');
+                    res.body.should.have.property('name').eql(user.name);
+                    res.body.should.have.property('gamePoints').eql(user.gamePoints);
+                    res.body.should.have.property('timesPlayed').eql(user.timesPlayed);
+                    done();
+                });
+        });
+    });
+
+    describe("DELETE /game/deleteUser/:name", () => {
+        it("Should delete a user's data", (done) => {
+            const name = 1; // Replace with a valid user name
+            chai.request(app)
+                .delete(`/game/deleteUser/${name}`)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.body.should.be.a('object');
                     done();
                 });
         });

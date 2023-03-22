@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const cors = require('cors');
 
 // Routes enlaces
 var indexRouter = require('./routes/index');
@@ -12,6 +13,9 @@ var app = express();
 
 // DB Call
 require("./config/db")
+const initializeDb = require("./config/db");
+const db = initializeDb();
+const { GameModel, sequelize } = db;
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,6 +35,12 @@ app.use('/game', game);
 app.use(function(req, res, next) {
   next(createError(404));
 });
+
+// Cors
+const corsOptions = {
+  origin: 'my.domain.notreadyYET'
+};
+app.use(cors(corsOptions));
 
 // Error handler
 app.use(function(err, req, res, next) {
