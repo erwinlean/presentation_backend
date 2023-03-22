@@ -1,21 +1,78 @@
-'use strict';
+"use strict"
 
-const sequelize = require('../config/db');
-const { DataTypes } = require('sequelize');
+const gameModel = require("../models/gameModel");
 
-const Game = sequelize.define('game', {
-    usersName: {
-        type: DataTypes.STRING,
-        allowNull: false
+// Single game response
+module.exports = {
+    allData: async function (req, res, next) {
+        try {
+            const allNames = await gameModel.findAll({
+                attributes: ["usersName"],
+            });
+            const allGamePoints = await gameModel.findAll({
+                attributes: ["gamePoints"],
+            });
+            const allTimesPlayed = await gameModel.findAll({
+                attributes: ["timesPlayed"],
+            });
+        
+            const responseData = {
+                allNames: allNames,
+                allGamePoints: allGamePoints,
+                allTimesPlayed: allTimesPlayed.length,
+            };
+            res.json(responseData);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        };
     },
-    gamePoints: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    allUsers: async function (req, res, next) {
+        try {
+            const allNames = await gameModel.findAll({
+                attributes: ["usersName"],
+            });
+            res.json(allNames);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        };
     },
-    timesPlayed: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+    allPoints: async function (req, res, next) {
+        try {
+            const allGamePoints = await gameModel.findAll({
+                attributes: ["gamePoints"],
+            });
+            res.json(allGamePoints);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        };
+    },
+    allTimesPlayed: async function (req, res, next) {
+        try {
+            const allTimesPlayed = await gameModel.findAll({
+            attributes: ["timesPlayed"],
+        });
+        res.json(allTimesPlayed.length);
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        };
+    },
+    addNewData: async function (req, res, next) {
+        const { usersName, gamePoints, timesPlayed } = req.body;
+
+        try {
+            const newGameData = await gameModel.create({
+            usersName,
+            gamePoints,
+            timesPlayed,
+        });
+        res.status(201).json({ message: "Game data added successfully" });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        };
     }
-});
-
-module.exports = Game;
+};

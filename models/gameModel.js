@@ -1,11 +1,21 @@
 'use strict';
 
-module.exports = (sequelize,type) => {
-    const game = sequelize.define("game",{
-        usersName: type.STRING,
-        gamePoints: type.INTEGER,
-        timesPlayed: type.INTEGER
-    });
+const sequelize = require('../config/db');
+const { DataTypes } = require('sequelize');
 
-    return game;
-};
+const Game = sequelize.define('game', {
+    usersName: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    gamePoints: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    },
+    timesPlayed: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+    }
+});
+
+module.exports = Game;
