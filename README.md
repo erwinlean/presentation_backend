@@ -7,23 +7,23 @@ Returns:
 
 ____________________________________________________________________________
 
-All responses are returned in JSON format.
+# All responses are returned in JSON format.
 
-Base URL: http://yourdomain.com/api/v1
+#### Base URL: http://notOnlineYet/api/v1
 
-Endpoints
-GET /game/
+## Endpoints
+### GET /game/
 Returns all game data, including user names, game points, and times played.
 
 Response
 
 200 OK on success
-json
+json"
 [
     ["user1", 500, 3],
     ["user2", 1000, 5],
     ["user3", 750, 4]
-]
+]"
 GET /game/users
 Returns an array of all user names.
 
