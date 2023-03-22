@@ -9,7 +9,7 @@ ____________________________________________________________________________
 
 ## All responses are returned in JSON format.
 
-##### Base URL: http://notOnlineYet/api/v1
+##### Base URL: https://sore-erin-goldfish-tutu.cyclic.app/
 
 ## Endpoints
 #### GET /game/
@@ -115,3 +115,10 @@ json
 ```
 {"message": "Internal Server Error"}
 ```
+
+____________________________________________________________________________
+
+#### To improve/Change:
+- Posible login for game
+- Modify Cors
+- Modify  urls: https://sore-erin-goldfish-tutu.cyclic.app/ should not return Express title, also the path should be like  https://sore-erin-goldfish- tutu.cyclic.app/api/v1/game etc...
