@@ -1,4 +1,4 @@
-# Game api to save information in DB, and traslate to the presentation web
+## Game api to save information in DB, and traslate to the presentation web
 
 Returns:
 - Name inputed when game ends
@@ -7,12 +7,12 @@ Returns:
 
 ____________________________________________________________________________
 
-# All responses are returned in JSON format.
+## All responses are returned in JSON format.
 
-#### Base URL: http://notOnlineYet/api/v1
+##### Base URL: http://notOnlineYet/api/v1
 
 ## Endpoints
-### GET /game/
+#### GET /game/
 Returns all game data, including user names, game points, and times played.
 
 Response
@@ -25,7 +25,7 @@ json
     ["user3", 750, 4]
 ]
 ```
-### GET /game/users
+#### GET /game/users
 Returns an array of all user names.
 
 Response
@@ -38,7 +38,7 @@ json
     {"usersName": "user3"}
 ]
 ```
-### GET /game/points
+#### GET /game/points
 Returns an array of all game points.
 
 Response
@@ -51,7 +51,7 @@ json
     {"gamePoints": 750}
 ]
 ```
-### GET /game/timesplayed
+#### GET /game/timesplayed
 Returns the total number of times the game has been played.
 
 Response
@@ -60,11 +60,11 @@ json
 ```
 {"timesPlayed": 12}
 ```
-### POST /game/add
+#### POST /game/add
 Adds new game data to the database.
 
 Request Body
-json
+json for post
 ```
 {
     "usersName": "user4",
@@ -75,16 +75,42 @@ json
 Response
 
 201 Created on success
-
-500 Internal Server Error on failure
 json
 ```
 {"message": "Game data added successfully"}
 ```
+
 Errors
 500 Internal Server Error
 This error is returned when there is an internal server error, such as a database connection issue.
+json
+```
+{"message": "Internal Server Error"}
+```
 
+#### DELETE /game/deleteUser/usernameHere
+Adds new game data to the database.
+example data:
+```
+{
+    "usersName": "user4",
+    "gamePoints": 800,
+    "timesPlayed": 2
+}
+```
+200 User deleted successfully
+json
+```
+{ message: "User deleted successfully" }
+```
+404 Not Found
+Error when user is not found at DataBase
+json
+```
+{ message: "User not found" }
+```
+500 Internal Server Error
+This error is returned when there is an internal server error, such as a database connection issue.
 json
 ```
 {"message": "Internal Server Error"}
