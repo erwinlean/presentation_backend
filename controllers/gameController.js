@@ -23,8 +23,8 @@ module.exports = {
             allTimesPlayed: allTimesPlayed.length,
         };
 
+        // Re organize db data
         const organizedData = [];
-
         for (let i = 0; i < responseData.allNames.length; i++) {
             const userData = [
                 responseData.allNames[i].usersName,
@@ -32,7 +32,7 @@ module.exports = {
                 responseData.allTimesPlayed,
             ];
             organizedData.push(userData);
-        }
+        };
 
         res.json(organizedData);
         } catch (err) {
