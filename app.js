@@ -13,9 +13,6 @@ var app = express();
 
 // DB Call
 require("./config/db")
-const initializeDb = require("./config/db");
-const db = initializeDb();
-const { GameModel, sequelize } = db;
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -38,9 +35,10 @@ app.use(function(req, res, next) {
 
 // Cors
 const corsOptions = {
-  origin: 'my.domain.notreadyYET'
+  origin: 'http://localhost:3000/'
 };
 app.use(cors(corsOptions));
+
 
 // Error handler
 app.use(function(err, req, res, next) {

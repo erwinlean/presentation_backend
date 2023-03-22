@@ -1,38 +1,25 @@
 'use strict';
 
-const db = require("./dbData.json");
-const Sequelize = require ("sequelize");
-const gameModel = require ("../models/gameModel");
+const { Sequelize } = require('sequelize');
 
-function initializeDb() {
-    // db data
-    const sequelize = new Sequelize(db.information.name, db.information.user, db.information.password,{
-        host: db.information.host,
-        dialect: db.information.dialect,
-        port: db.information.port,
-        dialectOptions: {
-            connectTimeout: 60000 // 60 seconds
-        },
-        logging: false
+// Import database configuration
+const { name, user, password, host, dialect, port } = require('./dbData.json').information;
+
+// Initialize Sequelize with database connection details
+const sequelize = new Sequelize(name, user, password, {
+    host,
+    dialect,
+    port,
+    logging: false
+});
+
+// Test the database connection
+sequelize.authenticate()
+    .then(() => {
+        console.log('Database connection successful');
+    })
+    .catch((err) => {
+        console.log('Database connection failed:', err);
     });
 
-    // Model with Sequelize
-    const GameModel = gameModel(sequelize, Sequelize);
-
-    // Syncronized model with db
-    sequelize.sync({force: false})
-        .then(() => {
-            console.log("dataBase working, ok.");
-        })
-        .catch((err) => {
-            console.error('Unable to connect to the database:', err);
-            process.exit(1); // exit the process with a failure code
-        });
-
-    return {
-        GameModel,
-        sequelize
-    };
-}
-
-module.exports = initializeDb;
+module.exports = sequelize;

@@ -5,7 +5,7 @@ module.exports = (sequelize,type) => {
         usersName: type.STRING,
         gamePoints: type.INTEGER,
         timesPlayed: type.INTEGER
-    })
+    });
 
     return game;
 };
