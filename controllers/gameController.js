@@ -1,7 +1,6 @@
 "use strict"
 
-const model = require("../models/gameModel");
-const gameModel = model;
+const gameModel = require("../models/gameModel");
 
 // Single game response
 module.exports = {
@@ -87,5 +86,37 @@ module.exports = {
             console.log(err);
             res.status(500).json({ message: "Internal Server Error" });
         };
-    }
+    },
+    deleteUser: async function (req, res, next) {
+        const { userName } = req.params;
+
+        try {
+            const deletedUser = await gameModel.destroy({
+                where: {
+                    usersName: userName
+                }
+            });
+            if (deletedUser) {
+                res.json({ message: "User deleted successfully" });
+            } else {
+                res.status(404).json({ message: "User not found" });
+            }
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    },
+    /*
+    deleteAllData: async function (req, res, next) {
+        try {
+            const deletedRows = await gameModel.destroy({
+                where: {},
+                truncate: true
+            });
+            res.json({ message: "All data deleted successfully" });
+        } catch (err) {
+            console.log(err);
+            res.status(500).json({ message: "Internal Server Error" });
+        }
+    }*/
 };
