@@ -1,27 +1,40 @@
 "use strict"
 
-const gameModel = require("../models/gameModel");
+const model = require("../models/gameModel");
+const gameModel = model;
 
 // Single game response
 module.exports = {
     allData: async function (req, res, next) {
         try {
-            const allNames = await gameModel.findAll({
-                attributes: ["usersName"],
-            });
-            const allGamePoints = await gameModel.findAll({
-                attributes: ["gamePoints"],
-            });
-            const allTimesPlayed = await gameModel.findAll({
-                attributes: ["timesPlayed"],
-            });
-        
-            const responseData = {
-                allNames: allNames,
-                allGamePoints: allGamePoints,
-                allTimesPlayed: allTimesPlayed.length,
-            };
-            res.json(responseData);
+        const allNames = await gameModel.findAll({
+            attributes: ["usersName"],
+        });
+        const allGamePoints = await gameModel.findAll({
+            attributes: ["gamePoints"],
+        });
+        const allTimesPlayed = await gameModel.findAll({
+            attributes: ["timesPlayed"],
+        });
+    
+        const responseData = {
+            allNames: allNames,
+            allGamePoints: allGamePoints,
+            allTimesPlayed: allTimesPlayed.length,
+        };
+
+        const organizedData = [];
+
+        for (let i = 0; i < responseData.allNames.length; i++) {
+            const userData = [
+                responseData.allNames[i].usersName,
+                responseData.allGamePoints[i].gamePoints,
+                responseData.allTimesPlayed,
+            ];
+            organizedData.push(userData);
+        }
+
+        res.json(organizedData);
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Internal Server Error" });

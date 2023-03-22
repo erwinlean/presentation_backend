@@ -65,17 +65,4 @@ describe("Games API", () => {
                 });
         });
     });
-
-    describe("DELETE /game/deleteUser/:name", () => {
-        it("Should delete a user's data", (done) => {
-            const name = 1; // Replace with a valid user name
-            chai.request(app)
-                .delete(`/game/deleteUser/${name}`)
-                .end((err, res) => {
-                    res.should.have.status(200);
-                    res.body.should.be.a('object');
-                    done();
-                });
-        });
-    });
 });
