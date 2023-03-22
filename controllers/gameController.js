@@ -1,7 +1,6 @@
 "use strict";
 
 const gameModel = require("../models/gameModel");
-require("./config/db")
 
 module.exports = {
     allUsersName: async function (req, res, next) {
