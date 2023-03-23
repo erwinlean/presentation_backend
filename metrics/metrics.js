@@ -1,7 +1,8 @@
 "use strict";
 
 const Prometheus = require('prom-client');
-const fs = require('fs');
+const fs = require('fs'); // To write the metrics into a file latter on. Not using it right now.
+const registry = new Prometheus.Registry();
 
 // Histogram to track the response time of the endpoint
 const endpointResponseTime = new Prometheus.Histogram({
