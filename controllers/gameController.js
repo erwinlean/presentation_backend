@@ -42,6 +42,8 @@ module.exports = {
             res.json(organizedData);
 
             end();
+
+            console.log(registry);
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Internal Server Error" });
