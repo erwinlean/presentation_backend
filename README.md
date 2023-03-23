@@ -12,7 +12,7 @@ ____________________________________________________________________________
 ##### Base URL: https://sore-erin-goldfish-tutu.cyclic.app/
 
 ## Endpoints
-#### GET /game/
+#### GET /api/game/
 Returns all game data, including user names, game points, and times played.
 
 Response
@@ -25,7 +25,7 @@ json
     ["user3", 750, 4]
 ]
 ```
-#### GET /game/users
+#### GET /api/game/users
 Returns an array of all user names.
 
 Response
@@ -38,7 +38,7 @@ json
     {"usersName": "user3"}
 ]
 ```
-#### GET /game/points
+#### GET /api/game/points
 Returns an array of all game points.
 
 Response
@@ -51,7 +51,7 @@ json
     {"gamePoints": 750}
 ]
 ```
-#### GET /game/timesplayed
+#### GET /api/game/timesplayed
 Returns the total number of times the game has been played.
 
 Response
@@ -60,7 +60,7 @@ json
 ```
 {"timesPlayed": 12}
 ```
-#### POST /game/add
+#### POST /api/game/add
 Adds new game data to the database.
 
 Request Body
@@ -88,7 +88,7 @@ json
 {"message": "Internal Server Error"}
 ```
 
-#### DELETE /game/deleteUser/usernameHere
+#### DELETE /api/game/deleteUser/theUsernameHere
 Adds new game data to the database.
 example data:
 ```
