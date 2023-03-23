@@ -26,7 +26,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', indexRouter);
-app.use('/game', game);
+app.use('/api/game', game);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -34,11 +34,12 @@ app.use(function(req, res, next) {
 });
 
 // Cors
+/* Profile game not online yet
 const corsOptions = {
   origin: 'http://localhost:3000/'
 };
 app.use(cors(corsOptions));
-
+*/
 
 // Error handler
 app.use(function(err, req, res, next) {
