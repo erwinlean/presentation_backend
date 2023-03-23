@@ -1,7 +1,9 @@
 "use strict"
 
 const gameModel = require("../models/gameModel");
-const { endpointResponseTime, endpointCounter } = require("../metrics/metrics.js");
+const { endpointResponseTime, endpointCounter, registry } = require("../metrics/metrics.js");
+
+//////////////// REGISTER FROM PROMETHEUS (registry) unnused yet to test. ///////////////
 
 // Single game response
 module.exports = {
