@@ -1,9 +1,7 @@
 "use strict"
 
 const gameModel = require("../models/gameModel");
-const { endpointResponseTime, endpointCounter, registry } = require("../metrics/metrics.js");
-
-//////////////// REGISTER FROM PROMETHEUS (registry) unnused yet to test. ///////////////
+const { endpointResponseTime, endpointCounter } = require("../metrics/metrics.js");
 
 // Single game response
 module.exports = {
@@ -42,8 +40,6 @@ module.exports = {
             res.json(organizedData);
 
             end();
-
-            console.log(registry);
         } catch (err) {
             console.log(err);
             res.status(500).json({ message: "Internal Server Error" });

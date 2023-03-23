@@ -1,8 +1,10 @@
 "use strict";
 
 const Prometheus = require('prom-client');
-const fs = require('fs'); // To write the metrics into a file latter on. Not using it right now.
+const fs = require('fs');
 const registry = new Prometheus.Registry();
+
+//////////////// REGISTER FROM PROMETHEUS (registry) unnused yet to test. ///////////////
 
 // Histogram to track the response time of the endpoint
 const endpointResponseTime = new Prometheus.Histogram({
@@ -20,7 +22,8 @@ const endpointCounter = new Prometheus.Counter({
 });
 
 // Register the metrics
-Prometheus.register.setDefaultRegistry(registry);
+//Prometheus.setDefaultRegistry(registry);
+// registry not working properly, to fix issue
 
 module.exports = {
     endpointCounter: endpointCounter,
