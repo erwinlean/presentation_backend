@@ -34,12 +34,12 @@ app.use(function(req, res, next) {
 });
 
 // Cors
-/* Profile game not online yet
+//Profile game not online yet
 const corsOptions = {
-  origin: 'http://localhost:3000/'
+  origin: '*'
 };
 app.use(cors(corsOptions));
-*/
+
 
 // Error handler
 app.use(function(err, req, res, next) {
