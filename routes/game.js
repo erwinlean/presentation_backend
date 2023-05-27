@@ -14,6 +14,6 @@ router.get('/timesplayed', gameController.allTimesPlayed);
 router.post('/add', gameController.addNewData);
 // Delete data
 router.delete("/deleteUser", gameController.deleteUser);
-/*router.delete("/deleteAll", gameController.deleteAllData);*/
+router.delete("/deleteAll", gameController.deleteAllData);
 
 module.exports = router; 

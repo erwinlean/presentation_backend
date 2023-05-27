@@ -137,7 +137,7 @@ module.exports = {
             res.status(500).json({ message: "Internal Server Error" });
         }
     },
-    /*
+    
     deleteAllData: async function (req, res, next) {
         try {
             const deletedRows = await gameModel.destroy({
@@ -149,5 +149,5 @@ module.exports = {
             console.log(err);
             res.status(500).json({ message: "Internal Server Error" });
         }
-    }*/
+    }
 };
