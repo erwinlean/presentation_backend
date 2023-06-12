@@ -16,7 +16,7 @@ module.exports = {
 
     try {
         const msg = {
-            to: `${process.env.TO_EMAIL}`,
+            to: `${process.env.MAIL_TO}`,
             from: email,
             subject: 'Mensaje de contacto',
             text: `Nombre: ${nombre}\nMensaje: ${mensaje}`,
