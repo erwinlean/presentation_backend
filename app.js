@@ -5,14 +5,22 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
 
-// Routes enlaces
+// Routes
 var indexRouter = require('./routes/index');
-var game = require('./routes/game');
+var gameRouter = require('./routes/game');
+var sendMailRouter = require('./routes/sendMail');
 
 var app = express();
 
 // DB Call
-require("./config/db")
+require("./config/db");
+
+// Cors
+//Profile game not online yet
+const corsOptions = {
+  origin: '*'
+};
+app.use(cors(corsOptions));
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,20 +34,13 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', indexRouter);
-app.use('/api/game', game);
+app.use('/api/game', gameRouter);
+app.use('/api/mailer', sendMailRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
-// Cors
-//Profile game not online yet
-const corsOptions = {
-  origin: '*'
-};
-app.use(cors(corsOptions));
-
 
 // Error handler
 app.use(function(err, req, res, next) {
