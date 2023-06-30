@@ -1,32 +1,44 @@
 "use strict";
 
-require('dotenv').config()
+require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+const Contact = require('../models/contactModel');
 
-//const apiKey = `${process.env.SENDGRID_API_KEY}`;
-//console.log("SendGrid key ", apiKey);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
     sendEmail: async function (req, res) {
-    const { email, nombre, mensaje } = req.body;
+        const { email, nombre, mensaje } = req.body;
 
-    //console.log(req.body);
-    console.log(email," ", nombre," ", mensaje);
+        try {
+            const contact = new Contact({ email, nombre, mensaje });
+            await contact.save();
 
-    try {
-        const msg = {
-            to: `${process.env.MAIL_TO}`,
-            from: email,
-            subject: 'Mensaje de contacto',
-            text: `Nombre: ${nombre}\nMensaje: ${mensaje}`,
-        };
+            const msg = {
+                to: process.env.MAIL_TO,
+                from: process.env.MAIL_FROM,
+                subject: 'Mensaje de contacto',
+                text: `Nombre: ${nombre}\n${email} \nMensaje: ${mensaje}`,
+            };
 
-        await sgMail.send(msg);
+            await sgMail.send(msg);
 
-        res.status(200).json({ message: 'Correo electrónico enviado exitosamente' });
-    }catch (error) {
-        console.error('Error al enviar el correo electrónico:', error);
-        res.status(500).json({ message: 'Error al enviar el correo electrónico' });
-    }}
+            res.status(200).json({ message: 'Correo electrónico enviado exitosamente' });
+        } catch (error) {
+            console.error('Error al enviar el correo electrónico:', error);
+            res.status(500).json({ message: 'Error al enviar el correo electrónico' });
+        }
+    },
+
+    getMails: async function (req, res) {
+        try {
+            const contacts = await Contact.find();
+
+            res.json(contacts);
+        } catch (error) {
+            console.error('Error al obtener los contactos:', error);
+
+            res.status(500).json({ message: 'Error al obtener los contactos' });
+        }
+    }
 };

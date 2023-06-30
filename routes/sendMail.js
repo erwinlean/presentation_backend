@@ -6,5 +6,6 @@ const sendMailController = require('../controllers/sendMailController');
 
 // Ruta para enviar el correo electrónico
 router.post('/', sendMailController.sendEmail);
+router.get('/', sendMailController.getMails);
 
 module.exports = router;

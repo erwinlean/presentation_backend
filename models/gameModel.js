@@ -1,21 +1,22 @@
-'use strict';
+"use strict";
 
-const sequelize = require('../config/db');
-const { DataTypes } = require('sequelize');
+const mongoose = require('mongoose');
 
-const Game = sequelize.define('game', {
+const gameSchema = new mongoose.Schema({
     usersName: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: String,
+        required: true
     },
     gamePoints: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: Number,
+        required: true
     },
     timesPlayed: {
-        type: DataTypes.INTEGER,
-        allowNull: false
+        type: Number,
+        required: true
     }
 });
+
+const Game = mongoose.model('Game', gameSchema);
 
 module.exports = Game;

@@ -1,25 +1,22 @@
 'use strict';
 
-const { Sequelize } = require('sequelize');
+const mongoose = require('mongoose');
+require('dotenv').config();
 
-// Import database configuration
-const { name, user, password, host, dialect, port } = require('./dbData.json').information;
+const dbUser = process.env.DBuser;
+const dbPassword = process.env.DBpasswordAuth;
+const dbHost = process.env.DBhost;
+const dbName = process.env.DBname;
 
-// Initialize Sequelize with database connection details
-const sequelize = new Sequelize(name, user, password, {
-    host,
-    dialect,
-    port,
-    logging: false
+const connectionString = `mongodb+srv://${dbUser}:${dbPassword}@${dbHost}/${dbName}?retryWrites=true&w=majority`;
+
+mongoose.connect(connectionString, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+}).then(() => {
+    console.log("Conectado a la base de datos MongoDB");
+}).catch((err) => {
+    console.log("No Conectado, error en base de datos", err);
 });
 
-// Test the database connection
-sequelize.authenticate()
-    .then(() => {
-        console.log('Database connection successful');
-    })
-    .catch((err) => {
-        console.log('Database connection failed:', err);
-    });
-
-module.exports = sequelize;
+module.exports = mongoose;

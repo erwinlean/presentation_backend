@@ -1,152 +1,98 @@
-"use strict"
+"use strict";
 
-const gameModel = require("../models/gameModel");
-const { endpointResponseTime, endpointCounter } = require("../metrics/metrics.js");
+const Game = require("../models/gameModel");
 
-// Single game response
 module.exports = {
-    allData: async function (req, res, next) {
+    allData: async function (req, res) {
         try {
-            const end = endpointResponseTime.startTimer();
-            endpointCounter.inc();
+            const allNames = await Game.find({}, "usersName");
+            const allGamePoints = await Game.find({}, "gamePoints");
+            const allTimesPlayed = await Game.countDocuments();
 
-            const allNames = await gameModel.findAll({
-                attributes: ["usersName"],
-            });
-            const allGamePoints = await gameModel.findAll({
-                attributes: ["gamePoints"],
-            });
-            const allTimesPlayed = await gameModel.findAll({
-                attributes: ["timesPlayed"],
-            });
-    
             const responseData = {
                 allNames: allNames,
                 allGamePoints: allGamePoints,
-                allTimesPlayed: allTimesPlayed.length,
+                allTimesPlayed: allTimesPlayed,
             };
 
-            // Re organize db data
-            const organizedData = [];
-            for (let i = 0; i < responseData.allNames.length; i++) {
-                const userData = [
-                    responseData.allNames[i].usersName,
-                    responseData.allGamePoints[i].gamePoints,
-                    responseData.allTimesPlayed,
-                ];
-                organizedData.push(userData);
-            };
+            const organizedData = responseData.allNames.map((name, index) => {
+                return [name, responseData.allGamePoints[index], responseData.allTimesPlayed];
+            });
 
             res.json(organizedData);
-
-            end();
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        };
+        }
     },
-    allUsers: async function (req, res, next) {
-        try {
-            const end = endpointResponseTime.startTimer();
-            endpointCounter.inc();
 
-            const allNames = await gameModel.findAll({
-                attributes: ["usersName"],
-            });
+    allUsers: async function (req, res) {
+        try {
+            const allNames = await Game.find({}, "usersName");
             res.json(allNames);
-
-            end();
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        };
+        }
     },
-    allPoints: async function (req, res, next) {
-        try {
-            const end = endpointResponseTime.startTimer();
-            endpointCounter.inc();
 
-            const allGamePoints = await gameModel.findAll({
-                attributes: ["gamePoints"],
-            });
+    allPoints: async function (req, res) {
+        try {
+            const allGamePoints = await Game.find({}, "gamePoints");
             res.json(allGamePoints);
-
-            end();
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        };
+        }
     },
-    allTimesPlayed: async function (req, res, next) {
+
+    allTimesPlayed: async function (req, res) {
         try {
-            const end = endpointResponseTime.startTimer();
-            endpointCounter.inc();
-
-            const allTimesPlayed = await gameModel.findAll({
-                attributes: ["timesPlayed"],
-            });
-            res.json(allTimesPlayed.length);
-
-            end();
-        } catch (err) {
-            console.log(err);
+            const allTimesPlayed = await Game.countDocuments();
+            res.json(allTimesPlayed);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        };
+        }
     },
-    addNewData: async function (req, res, next) {
+
+    addNewData: async function (req, res) {
         const { usersName, gamePoints, timesPlayed } = req.body;
 
         try {
-            const end = endpointResponseTime.startTimer();
-            endpointCounter.inc();
+            const newGameData = new Game({ usersName, gamePoints, timesPlayed });
+            await newGameData.save();
 
-            const newGameData = await gameModel.create({
-                usersName,
-                gamePoints,
-                timesPlayed,
-            });
             res.status(201).json({ message: "Game data added successfully" });
-
-            end();
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        };
+        }
     },
-    deleteUser: async function (req, res, next) {
+
+    deleteUser: async function (req, res) {
         const { userName } = req.params;
 
         try {
-            const end = endpointResponseTime.startTimer();
-            endpointCounter.inc();
+            const deletedUser = await Game.deleteOne({ usersName: userName });
 
-            const deletedUser = await gameModel.destroy({
-                where: {
-                    usersName: userName
-                }
-            });
-            if (deletedUser) {
+            if (deletedUser.deletedCount > 0) {
                 res.json({ message: "User deleted successfully" });
             } else {
                 res.status(404).json({ message: "User not found" });
             }
-
-            end();
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
         }
     },
-    
-    deleteAllData: async function (req, res, next) {
+
+    deleteAllData: async function (req, res) {
         try {
-            const deletedRows = await gameModel.destroy({
-                where: {},
-                truncate: true
-            });
+            await Game.deleteMany({});
             res.json({ message: "All data deleted successfully" });
-        } catch (err) {
-            console.log(err);
+        } catch (error) {
+            console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
         }
     }
