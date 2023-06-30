@@ -12,7 +12,9 @@ const cors = require('cors');
 // Routes
 var indexRouter = require('./routes/index');
 var gameRouter = require('./routes/game');
+var chatRouter = require('./routes/chat');
 var sendMailRouter = require('./routes/sendMail');
+var chatbotRouter = require('./routes/chat');
 
 var app = express();
 
@@ -38,8 +40,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Routes
 app.use('/', indexRouter);
+app.use('/api', indexRouter);
+app.use('/api/chat', chatRouter);
 app.use('/api/game', gameRouter);
 app.use('/api/mailer', sendMailRouter);
+app.use('/api/chatbot', chatbotRouter);
 
 // Catch 404 and forward to error handler
 app.use(function(req, res, next) {
