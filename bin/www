@@ -14,12 +14,45 @@ var http = require('http');
 
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
+//console.log(port) // returns: 8080
 
 /**
- * Create HTTP server.
+ * Create HTTP server.|
  */
 
 var server = http.createServer(app);
+
+/* Socket  */
+const main = require('../chatbot/openai-chatbot');
+const { Server } = require('socket.io');
+const io = new Server(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type", "Authorization"]
+  }
+});
+io.on('connection', (socket) => {
+  //console.log('Nuevo cliente conectado');
+
+  socket.on('chat message', (message) => {
+    //console.log('Mensaje recibido:', message);
+  
+    main(message)
+      .then(response => {
+
+        console.log(response);
+        io.emit('chat message', response);
+      })
+      .catch(error => {
+        console.error('Error en el chatbot:', error);
+      });
+  });  
+
+  socket.on('disconnect', () => {
+      //console.log('Cliente desconectado');
+  });
+});
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -87,4 +120,4 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-}
+};
