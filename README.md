@@ -1,3 +1,6 @@
+# NEED TO BE UPDATE, LAST UPDATE 4 MONTHS AGO
+____________________________________________________________________________
+
 ## Game api to save information in DB, and traslate to the presentation web
 
 Returns:
