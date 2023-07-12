@@ -6,9 +6,8 @@ require('dotenv').config();
 const dbUser = process.env.DBuser;
 const dbPassword = process.env.DBpasswordAuth;
 const dbHost = process.env.DBhost;
-const dbName = process.env.DBname;
 
-const connectionString = `mongodb+srv://${dbUser}:${dbPassword}@${dbHost}/${dbName}?retryWrites=true&w=majority`;
+const connectionString = `mongodb+srv://${dbUser}:${dbPassword}@${dbHost}/?retryWrites=true&w=majority`;
 
 mongoose.connect(connectionString, {
     useNewUrlParser: true,

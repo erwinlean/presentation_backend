@@ -24,30 +24,49 @@ var server = http.createServer(app);
 
 /* Socket  */
 const main = require('../chatbot/openai-chatbot');
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
-    origin: "*",
+    origin: 'https://test-porfolio.netlify.app/',
+    //origin: "*",
     methods: ["GET", "POST"],
-    allowedHeaders: ["Content-Type", "Authorization"]
+    alloweddompurifyaders: ["Content-Type", "Authorization"]
   }
 });
 io.on('connection', (socket) => {
   //console.log('Nuevo cliente conectado');
 
   socket.on('chat message', (message) => {
-    //console.log('Mensaje recibido:', message);
-  
-    main(message)
-      .then(response => {
+    if (!message) {
+        io.emit('chat message', 'Error: Message is required');
+        return;
+    };
 
-        console.log(response);
-        io.emit('chat message', response);
-      })
-      .catch(error => {
-        console.error('Error en el chatbot:', error);
-      });
-  });  
+    const DOMPurify = createDOMPurify(new JSDOM().window);
+    const sanitizedMessage = DOMPurify.sanitize(message);
+
+    const dangerousContent = ["&", "data:","vbscript:","eval()", "exec()"];
+    const messages = sanitizedMessage.toLowerCase();
+    const containsDangerousContent = dangerousContent.some(content => messages.includes(content));
+
+    if (containsDangerousContent) {
+        console.log('Mensaje malicioso detectado:', message);
+        io.emit('chat message', 'Error: Message contains dangerous content');
+        return;
+    }else{
+      
+      main(sanitizedMessage)
+        .then(response => {
+            io.emit('chat message', response);
+        })
+        .catch(error => {
+            console.error('Error en el chatbot:', error);
+            io.emit('chat message', 'Error en el chatbot');
+        });
+    };
+});
 
   socket.on('disconnect', () => {
       //console.log('Cliente desconectado');

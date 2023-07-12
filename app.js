@@ -23,7 +23,8 @@ require("./config/db");
 // Cors
 //Profile game not online yet
 const corsOptions = {
-  origin: '*',
+  origin: 'https://test-porfolio.netlify.app/',
+  //origin: "*",
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions));

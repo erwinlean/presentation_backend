@@ -1,6 +1,8 @@
 "use strict";
 
 const Game = require("../models/gameModel");
+const createDOMPurify = require('dompurify');
+const { JSDOM } = require('jsdom');
 
 module.exports = {
     allData: async function (req, res) {
@@ -33,7 +35,7 @@ module.exports = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        }
+        };
     },
 
     allPoints: async function (req, res) {
@@ -43,7 +45,7 @@ module.exports = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        }
+        };
     },
 
     allTimesPlayed: async function (req, res) {
@@ -53,21 +55,30 @@ module.exports = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        }
+        };
     },
 
     addNewData: async function (req, res) {
         const { usersName, gamePoints, timesPlayed } = req.body;
-
+    
+        if (!usersName || !gamePoints || !timesPlayed) {
+            return res.status(400).json({ message: 'User name, game points, and times played are required' });
+        };
+    
+        const DOMPurify = createDOMPurify(new JSDOM().window);
+        const sanitizedUsersName = DOMPurify.sanitize(usersName);
+        const sanitizedGamePoints = DOMPurify.sanitize(gamePoints);
+        const sanitizedTimesPlayed = DOMPurify.sanitize(timesPlayed);
+    
         try {
-            const newGameData = new Game({ usersName, gamePoints, timesPlayed });
+            const newGameData = new Game({ usersName: sanitizedUsersName, gamePoints: sanitizedGamePoints, timesPlayed: sanitizedTimesPlayed });
             await newGameData.save();
-
+    
             res.status(201).json({ message: "Game data added successfully" });
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        }
+        };
     },
 
     deleteUser: async function (req, res) {
@@ -84,7 +95,7 @@ module.exports = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        }
+        };
     },
 
     deleteAllData: async function (req, res) {
@@ -94,6 +105,6 @@ module.exports = {
         } catch (error) {
             console.log(error);
             res.status(500).json({ message: "Internal Server Error" });
-        }
+        };
     }
 };

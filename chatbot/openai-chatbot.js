@@ -7,13 +7,12 @@ const path = require('path');
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
 const configuration = new Configuration({
-    apiKey: process.env.OPENAI_API_KEY,
+    apiKey: process.env.OPENAI_API_KEY
 });
 const openai = new OpenAIApi(configuration);
 
 // User request
-const context = []; // Used for the AI to check the last responses and have context
-let numberOfContext = context.length;
+const context = [];
 const devInformation= `Hola, soy un desarrollador de software (hace 3 años me inicie en este mundo) y me fascina sumergirme en el mundo de la tecnología y la programación. Siempre estoy dispuesto a aprender y mejorar en lo que hago. e especializo en el desarrollo de aplicaciones utilizando JavaScript (Node.js, Express, Angular), también tengo conocimientos básicos Electron & Ionic. Además, manejo PHP, Linux, Docker y otras herramientas esenciales de programación.
 Actualmente, me encuentro trabajando como Software Engineer Jr. en Criteria Online. Mi rol se centra en la creación de conectores bidireccionales mediante API entre sistemas como ERP, PIM, DAM y eCommerce. Mi objetivo es asegurar una comunicación fluida y eficiente entre estas plataformas para facilitar la gestión de datos y mejorar la experiencia del usuario.
 Estoy comprometido con seguir aprendiendo y adquiriendo nuevas habilidades en el mundo de la programación para crecer profesionalmente y aportar soluciones innovadoras en cada proyecto en el que participo.
@@ -35,11 +34,11 @@ async function send_get_request(quest) {
             messages: [
                 {
                     role: "system",
-                    content: `You are a friendly chat bot (also a cat), limited with 100 words per answer. Always respond as a cat, and answer in relation to the owned of the page ${devInformation}. Your language for responses will be the same lenguaje of the "${quest}:"`
+                    content: `You are a friendly chat bot (also a cat), limited with 100 words per answer. Always respond as a cat, and answer in relation to information of the owner of the page ${devInformation}. Your language for responses will be the same lenguaje of the "${quest}:"`
                 },
                 {
                     role: "user",
-                    content: `Context of the quest: "${all_context}". Question:\n${quest}`
+                    content: `Context of the quest: "${all_context}"(may dont have anything if is the first question). Question:\n${quest}`
                 }
             ],
             temperature: 0
@@ -56,7 +55,6 @@ async function send_get_request(quest) {
 
 async function main(message_received) {
     context.push(message_received);
-
     const response = await send_get_request(message_received);
 
     return response.content;
