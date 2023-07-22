@@ -23,9 +23,19 @@ require("./config/db");
 // Cors
 //Profile game not online yet
 const corsOptions = {
-  origin: 'https://test-porfolio.netlify.app/',
-  //origin: "*",
-  methods: ['GET', 'POST', 'PUT', 'DELETE']
+  origin: function (origin, callback) {
+    const allowedOrigins = 'https://test-porfolio.netlify.app';
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    };
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  credentials: true,
+  maxAge: 3600
 };
 app.use(cors(corsOptions));
 

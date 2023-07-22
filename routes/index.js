@@ -1,8 +1,14 @@
+"use strict";
+
 var express = require('express');
 var router = express.Router();
 const indexController = require("../controllers/indexController");
+const getToken = require("../middleware/createToken");
 
-/* GET home page. */
 router.get('/', indexController.index);
+
+router.post('/', getToken, (req,res) => {
+    res.json({ token: req.token });
+});
 
 module.exports = router;

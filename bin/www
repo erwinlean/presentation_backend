@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
@@ -25,13 +24,24 @@ var server = http.createServer(app);
 /* Socket  */
 const main = require('../chatbot/openai-chatbot');
 const createDOMPurify = require('dompurify');
+const cors = require('cors');
 const { JSDOM } = require('jsdom');
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
-    origin: 'https://test-porfolio.netlify.app/',
-    //origin: "*",
+    origin: function (origin, callback) {
+      const allowedOrigins = 'https://test-porfolio.netlify.app';
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      };
+    },
     methods: ["GET", "POST"],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    exposedHeaders: ['Content-Range', 'X-Content-Range'],
+    credentials: true,
+    maxAge: 3600,
     alloweddompurifyaders: ["Content-Type", "Authorization"]
   }
 });
