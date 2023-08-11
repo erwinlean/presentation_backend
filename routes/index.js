@@ -7,7 +7,7 @@ const getToken = require("../middleware/createToken");
 
 router.get('/', indexController.index);
 
-router.post('/', getToken, (req,res) => {
+router.post('/token', getToken, (req,res) => {
     res.json({ token: req.token });
 });
 

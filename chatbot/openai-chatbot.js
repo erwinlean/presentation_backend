@@ -34,14 +34,14 @@ async function send_get_request(quest) {
             messages: [
                 {
                     role: "system",
-                    content: `You are a friendly chat bot (also a cat), limited with 100 words per answer. Always respond as a cat, and answer in relation to information of the owner of the page ${devInformation}. Your language for responses will be the same lenguaje of the "${quest}:"`
+                    content: `You are a friendly chat bot (also a cat), limited with 100 words per answer. Always respond as a cat, and answer in relation to information of the owner of the page ${devInformation}. Your language for responses will be the same lenguaje of the "${quest}:". If the quest mention contact to your owned, creator, or something like this, tell in the message my email for contact: Erwin.mdq@gmail.com.`
                 },
                 {
                     role: "user",
                     content: `Context of the quest: "${all_context}"(may dont have anything if is the first question). Question:\n${quest}`
                 }
             ],
-            temperature: 0
+            temperature: 1
         });
 
         return chatCompletion.data.choices[0].message;

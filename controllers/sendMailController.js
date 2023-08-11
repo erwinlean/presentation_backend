@@ -16,10 +16,13 @@ module.exports = {
             return res.status(400).json({ message: 'Email, name, and message are required' });
         };
         
-        const DOMPurify = createDOMPurify(new JSDOM().window);
-        const sanitizedEmail = DOMPurify.sanitize(email);
-        const sanitizedNombre = DOMPurify.sanitize(nombre);
-        const sanitizedMensaje = DOMPurify.sanitize(mensaje);
+        //const DOMPurify = createDOMPurify(new JSDOM().window);
+        //const sanitizedEmail = DOMPurify.sanitize(email);
+        //const sanitizedNombre = DOMPurify.sanitize(nombre);
+        //const sanitizedMensaje = DOMPurify.sanitize(mensaje);
+        const sanitizedEmail = email;
+        const sanitizedNombre = nombre;
+        const sanitizedMensaje = mensaje;
     
         try {
             const contact = new Contact({ email: sanitizedEmail, nombre: sanitizedNombre, mensaje: sanitizedMensaje });

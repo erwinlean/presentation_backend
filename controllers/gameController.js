@@ -1,8 +1,8 @@
 "use strict";
 
 const Game = require("../models/gameModel");
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
+//const createDOMPurify = require('dompurify');
+//const { JSDOM } = require('jsdom');
 
 module.exports = {
     allData: async function (req, res) {
@@ -65,11 +65,14 @@ module.exports = {
             return res.status(400).json({ message: 'User name, game points, and times played are required' });
         };
     
-        const DOMPurify = createDOMPurify(new JSDOM().window);
-        const sanitizedUsersName = DOMPurify.sanitize(usersName);
-        const sanitizedGamePoints = DOMPurify.sanitize(gamePoints);
-        const sanitizedTimesPlayed = DOMPurify.sanitize(timesPlayed);
-    
+        //const DOMPurify = createDOMPurify(new JSDOM().window);
+        //const sanitizedUsersName = DOMPurify.sanitize(usersName);
+        //const sanitizedGamePoints = DOMPurify.sanitize(gamePoints);
+        //const sanitizedTimesPlayed = DOMPurify.sanitize(timesPlayed);
+        const sanitizedUsersName = usersName;
+        const sanitizedGamePoints = gamePoints;
+        const sanitizedTimesPlayed = timesPlayed;
+        
         try {
             const newGameData = new Game({ usersName: sanitizedUsersName, gamePoints: sanitizedGamePoints, timesPlayed: sanitizedTimesPlayed });
             await newGameData.save();

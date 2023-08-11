@@ -5,16 +5,13 @@ const jwt = require('jsonwebtoken');
 const secretKey = '37058003';
 
 const getToken = (req, res, next) => {
-    const allowedURLs = [
-        'https://test-porfolio.netlify.app/',
-        'https://test-porfolio.netlify.app/index.html',
-        'https://test-porfolio.netlify.app/game.html',
-        'https://test-porfolio.netlify.app/contact.html'
-    ];
+    
+    const allowedURL = 'https://erwinmarte.netlify.app'
 
     const origin = req.headers.origin;
+    console.log(origin);
 
-    if (allowedURLs.includes(origin)) {
+    if (origin == allowedURL) {
         const token = jwt.sign({}, secretKey, { expiresIn: '2h' });
         req.token = token;
         next();
