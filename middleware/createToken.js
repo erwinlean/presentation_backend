@@ -6,7 +6,8 @@ const secretKey = '37058003';
 
 const getToken = (req, res, next) => {
     
-    const allowedURL = 'https://erwinmarte.netlify.app'
+    //const allowedURL = 'http://127.0.0.1:5500'
+    const allowedURL = 'https://erwin-marte.netlify.app'
 
     const origin = req.headers.origin;
     console.log(origin);

@@ -3,8 +3,8 @@
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 const Contact = require('../models/contactModel');
-const createDOMPurify = require('dompurify');
-const { JSDOM } = require('jsdom');
+//const createDOMPurify = require('dompurify');
+//const { JSDOM } = require('jsdom');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
