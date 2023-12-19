@@ -1,12 +1,10 @@
 "use strict";
 
 require('dotenv').config();
-const sgMail = require('@sendgrid/mail');
 const Contact = require('../models/contactModel');
-//const createDOMPurify = require('dompurify');
-//const { JSDOM } = require('jsdom');
+const { contactEmail } = require("../utils/emailSender");
+const { checkInputs } = require("../middleware/security");
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 module.exports = {
     sendEmail: async function (req, res) {
@@ -15,11 +13,10 @@ module.exports = {
         if (!email || !nombre || !mensaje) {
             return res.status(400).json({ message: 'Email, name, and message are required' });
         };
-        
-        //const DOMPurify = createDOMPurify(new JSDOM().window);
-        //const sanitizedEmail = DOMPurify.sanitize(email);
-        //const sanitizedNombre = DOMPurify.sanitize(nombre);
-        //const sanitizedMensaje = DOMPurify.sanitize(mensaje);
+
+        if(checkInputs(email) || checkInputs(nombre) || checkInputs(mensaje) ){
+            return res.status(401).json({message: "Email data error, check input and try again."});
+        };
         const sanitizedEmail = email;
         const sanitizedNombre = nombre;
         const sanitizedMensaje = mensaje;
@@ -27,15 +24,8 @@ module.exports = {
         try {
             const contact = new Contact({ email: sanitizedEmail, nombre: sanitizedNombre, mensaje: sanitizedMensaje });
             await contact.save();
-    
-            const msg = {
-                to: process.env.MAIL_TO,
-                from: process.env.MAIL_FROM,
-                subject: 'Mensaje de contacto',
-                text: `Nombre: ${sanitizedNombre}\n${sanitizedEmail} \nMensaje: ${sanitizedMensaje}`,
-            };
-    
-            await sgMail.send(msg);
+
+            contactEmail(sanitizedEmail, sanitizedNombre, sanitizedMensaje);
     
             res.status(200).json({ message: 'Correo electrónico enviado exitosamente' });
         } catch (error) {

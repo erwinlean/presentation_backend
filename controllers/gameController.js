@@ -1,8 +1,7 @@
 "use strict";
 
 const Game = require("../models/gameModel");
-//const createDOMPurify = require('dompurify');
-//const { JSDOM } = require('jsdom');
+const { checkInputs } = require("../middleware/security");
 
 module.exports = {
     allData: async function (req, res) {
@@ -31,6 +30,7 @@ module.exports = {
     allUsers: async function (req, res) {
         try {
             const allNames = await Game.find({}, "usersName");
+
             res.json(allNames);
         } catch (error) {
             console.log(error);
@@ -41,6 +41,7 @@ module.exports = {
     allPoints: async function (req, res) {
         try {
             const allGamePoints = await Game.find({}, "gamePoints");
+
             res.json(allGamePoints);
         } catch (error) {
             console.log(error);
@@ -51,6 +52,7 @@ module.exports = {
     allTimesPlayed: async function (req, res) {
         try {
             const allTimesPlayed = await Game.countDocuments();
+
             res.json(allTimesPlayed);
         } catch (error) {
             console.log(error);
@@ -65,10 +67,10 @@ module.exports = {
             return res.status(400).json({ message: 'User name, game points, and times played are required' });
         };
     
-        //const DOMPurify = createDOMPurify(new JSDOM().window);
-        //const sanitizedUsersName = DOMPurify.sanitize(usersName);
-        //const sanitizedGamePoints = DOMPurify.sanitize(gamePoints);
-        //const sanitizedTimesPlayed = DOMPurify.sanitize(timesPlayed);
+        if(checkInputs(usersName)){
+            return res.status(401).json({message: "Game data error, check input and try again."});
+        };
+
         const sanitizedUsersName = usersName;
         const sanitizedGamePoints = gamePoints;
         const sanitizedTimesPlayed = timesPlayed;

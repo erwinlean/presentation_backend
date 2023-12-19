@@ -1,8 +1,7 @@
 "use strict";
 
 const Chat = require("../models/chatModel");
-//const createDOMPurify = require('dompurify');
-//const { JSDOM } = require('jsdom');
+const { checkInputs } = require("../middleware/security");
 
 module.exports = {
     getAllChat: async function (req, res) {
@@ -31,10 +30,11 @@ module.exports = {
         
         if (!message) {
             return res.status(400).json({ message: "Message is required" });
-        }
-        
-        //const DOMPurify = createDOMPurify(new JSDOM().window);
-        //const sanitizedMessage = DOMPurify.sanitize(message);
+        };
+
+        if(checkInputs(message)){
+            return res.status(401).json({message: "Message data error, check input and try again."});
+        };
         const sanitizedMessage = message;
     
         try {
