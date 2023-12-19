@@ -10,7 +10,7 @@ const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
 
-// User request
+// User request 
 const context = [];
 const devInformation= `Hola, soy un desarrollador de software (hace 3 años me inicie en este mundo) y me fascina sumergirme en el mundo de la tecnología y la programación. Siempre estoy dispuesto a aprender y mejorar en lo que hago. e especializo en el desarrollo de aplicaciones utilizando JavaScript (Node.js, Express, Angular), también tengo conocimientos básicos Electron & Ionic. Además, manejo PHP, Linux, Docker y otras herramientas esenciales de programación.
 Actualmente, me encuentro trabajando como Software Engineer Jr. en Criteria Online. Mi rol se centra en la creación de conectores bidireccionales mediante API entre sistemas como ERP, PIM, DAM y eCommerce. Mi objetivo es asegurar una comunicación fluida y eficiente entre estas plataformas para facilitar la gestión de datos y mejorar la experiencia del usuario.
@@ -28,7 +28,7 @@ async function send_get_request(quest) {
     //console.log(all_context)
 
     try {
-        const chatCompletion = await openai.createChatCompletion({
+        const chatCompletion = await openai.chat.completions.create({
             model: "gpt-3.5-turbo",
             messages: [
                 {
