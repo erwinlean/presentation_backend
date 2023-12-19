@@ -37,7 +37,14 @@ function checkInputs(input) {
     return false;
 };
 
+const apiLimiter = rateLimit({
+    windowMs: 24 * 60 * 60 * 1000,
+    max: 1000,
+    message: "Max request per day reached.",
+});
+
 module.exports = {
     ipCheck,
-    checkInputs
+    checkInputs,
+    apiLimiter
 };

@@ -1,15 +1,14 @@
 "use strict";
 
-const { Configuration, OpenAIApi } = require("openai");
+const { OpenAI } = require("openai");
 const dotenv = require('dotenv');
 const path = require('path');
 
 dotenv.config({ path: path.join(__dirname, '..', '.env') });
 
-const configuration = new Configuration({
+const openai = new OpenAI({
     apiKey: process.env.OPENAI_API_KEY
 });
-const openai = new OpenAIApi(configuration);
 
 // User request
 const context = [];
