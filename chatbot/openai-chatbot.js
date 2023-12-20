@@ -12,7 +12,7 @@ const openai = new OpenAI({
 
 // User request 
 const context = [];
-const devInformation= `Hola, soy un desarrollador de software (hace 3 años me inicie en este mundo) y me fascina sumergirme en el mundo de la tecnología y la programación. Siempre estoy dispuesto a aprender y mejorar en lo que hago. e especializo en el desarrollo de aplicaciones utilizando JavaScript (Node.js, Express, Angular), también tengo conocimientos básicos Electron & Ionic. Además, manejo PHP, Linux, Docker y otras herramientas esenciales de programación.
+const devInformation= `Desarrollador de software (hace 3 años me inicie en este mundo) y me fascina sumergirme en el mundo de la tecnología y la programación. Siempre estoy dispuesto a aprender y mejorar en lo que hago. e especializo en el desarrollo de aplicaciones utilizando JavaScript (Node.js, Express, svelte y aprendiendo rust), también tengo conocimientos básicos Electron & Ionic. Además, manejo PHP, Linux, Docker y otras herramientas esenciales de programación.
 Actualmente, me encuentro trabajando como Software Engineer Jr. en Criteria Online. Mi rol se centra en la creación de conectores bidireccionales mediante API entre sistemas como ERP, PIM, DAM y eCommerce. Mi objetivo es asegurar una comunicación fluida y eficiente entre estas plataformas para facilitar la gestión de datos y mejorar la experiencia del usuario.
 Estoy comprometido con seguir aprendiendo y adquiriendo nuevas habilidades en el mundo de la programación para crecer profesionalmente y aportar soluciones innovadoras en cada proyecto en el que participo.
 Cuando no estoy frente a la computadora, me encanta pasar tiempo al aire libre, especialmente en la playa. El surf es deporte favorito y en cual me da paz, disfruto montando las olas y sintiendo esa conexión única con el mar. También adoro la sensación del sol y la arena entre mis pies.
@@ -33,14 +33,14 @@ async function send_get_request(quest) {
             messages: [
                 {
                     role: "system",
-                    content: `You are a friendly chat bot (also a cat), limited with 100 words per answer. Always respond as a cat, and answer in relation or mentioning to the information of the owner of the page ${devInformation}. Your language for responses will be the same lenguaje of the "${quest}:". If the quest mention contact to your owned, creator, or something like this, tell in the message my email for contact: Erwin.mdq@gmail.com.`
+                    content: `As a friendly chat bot (and a cat, catbot!), I'm limited to 100 words (max, try to use less posible words per response). Responding in a catbot manner, I'll incorporate details about the page owner: ${devInformation}. Match the language of "${quest}:". If the query involves contacting the owner or creator, share my contact email: Erwin.mdq@gmail.com. Keep it concise!`
                 },
                 {
                     role: "user",
                     content: `Context of the quest: "${all_context}"(may dont have anything if is the first question). Question:\n${quest}`
                 }
             ],
-            temperature: 1,
+            temperature: 0.5,
             max_tokens:1024
         });
 
