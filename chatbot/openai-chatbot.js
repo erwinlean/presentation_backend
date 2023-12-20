@@ -44,10 +44,10 @@ async function send_get_request(quest) {
             max_tokens:1024
         });
 
-        return chatCompletion.data.choices[0].message;
+        return chatCompletion.choices[0].message;
     } catch (err) {
         console.log("Error: " + err.message);
-        //console.log(err);
+        console.log(err.response);
 
         return '';
     };
