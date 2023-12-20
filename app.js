@@ -6,6 +6,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors');
+const { logGenerator } = require('./logs/logs');
 
 // Port on 8080
 
@@ -32,6 +33,9 @@ const corsOptions = {
   maxAge: 3600
 };
 app.use(cors(corsOptions));
+
+// Logs
+app.use(logGenerator);
 
 // View engine setup
 app.set('views', path.join(__dirname, 'views'));
