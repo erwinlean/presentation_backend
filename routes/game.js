@@ -13,9 +13,9 @@ router.get('/users', authenticateToken, gameController.allUsers);
 router.get('/points',authenticateToken, gameController.allPoints);
 router.get('/timesplayed',authenticateToken, gameController.allTimesPlayed);
 // Add data
-router.post('/add',authenticateToken,apiLimiter,  gameController.addNewData);
+router.post('/add',authenticateToken, apiLimiter,  gameController.addNewData);
 // Delete data
-router.delete("/deleteUser",authenticateToken,apiLimiter, gameController.deleteUser);
-router.delete("/deleteAll", authenticateToken,apiLimiter, gameController.deleteAllData);
+router.delete("/deleteUser",authenticateToken, apiLimiter, gameController.deleteUser);
+router.delete("/deleteAll", authenticateToken, apiLimiter, gameController.deleteAllData);
 
 module.exports = router; 

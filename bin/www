@@ -29,8 +29,8 @@ const main = require('../chatbot/openai-chatbot');
 const { Server } = require('socket.io');
 const io = new Server(server, {
   cors: {
-    //origin: "*",
-    origin: "https://erwinmarte.netlify.app",
+    origin: "*",
+    //origin: "https://erwinmarte.netlify.app",
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type", "Authorization"]
   }
