@@ -19,7 +19,7 @@ module.exports = {
         };
         const sanitizedEmail = email;
         const sanitizedNombre = nombre;
-        const sanitizedMensaje = mensaje;:
+        const sanitizedMensaje = mensaje;
     
         try {
             const contact = new Contact({ email: sanitizedEmail, nombre: sanitizedNombre, mensaje: sanitizedMensaje });
